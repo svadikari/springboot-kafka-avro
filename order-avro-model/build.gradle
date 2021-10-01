@@ -1,0 +1,121 @@
+import com.github.davidmc24.gradle.plugin.avro.GenerateAvroJavaTask
+import com.github.davidmc24.gradle.plugin.avro.GenerateAvroProtocolTask
+import com.github.davidmc24.gradle.plugin.avro.GenerateAvroSchemaTask
+
+buildscript {
+    apply from: 'gradle/artifactory-properties.gradle'
+    repositories {
+        maven mavenRepositoryConfig
+        ivy ivyRepositoryConfig
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.4.2"
+    }
+}
+
+plugins {
+    id 'java'
+    id "com.github.davidmc24.gradle.plugin.avro" version "1.2.0"
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'maven-publish'
+apply plugin: 'com.github.davidmc24.gradle.plugin.avro-base'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+apply from: 'gradle/idea.gradle'
+avro {
+    enableDecimalLogicalType = true
+}
+
+task setVersion {
+    if ("$appVersion" != "unspecified") {
+        version = "$appVersion"
+    } else {
+        version = '1.0.0-LOCAL'
+    }
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+allprojects {
+    group 'com.shyam.order'
+    version = "$version"
+}
+
+repositories {
+    maven mavenRepositoryConfig
+    mavenCentral()
+}
+configurations {
+    providedRuntime
+}
+
+dependencies {
+    implementation('org.apache.avro:avro:1.10.1')
+}
+
+clean{
+    delete 'src/main/resources/avro/schema', 'src/main/java/com/'
+}
+
+sourceSets {
+    main{
+        java{
+            srcDir 'src/main/java'
+        }
+    }
+}
+
+def generateProtocol = tasks.register("generateProtocol", GenerateAvroProtocolTask) {
+    source file("src/main/resources/avro/avdl")
+    include("**/*.avdl")
+    outputDir = file("build/generated/avro-main-avpr")
+}
+
+tasks.register("generateSchema", GenerateAvroSchemaTask) {
+    dependsOn generateProtocol
+    source file("src/main/resources/avro/avdl")
+    source file("build/generated/avro-main-avpr")
+    include("**/*.avpr")
+    outputDir = file("src/main/resources/avro/schema")
+}
+
+def generateAvro = tasks.register("generateAvro", GenerateAvroJavaTask) {
+    dependsOn generateSchema
+    source("src/main/resources/avro/schema")
+    outputDir = file("src/main/java")
+}
+
+tasks.named("compileJava").configure {
+    source(generateAvro)
+}
+
+bootJar {
+    enabled = false
+    if (System.getenv('IS_LOCAL') == 'true') {
+        classifier = "exec"
+    }
+}
+
+jar {
+    enabled = true
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+
+    repositories {
+        maven project.mavenRepositoryConfig
+    }
+}
+
+publish.dependsOn bootJar
