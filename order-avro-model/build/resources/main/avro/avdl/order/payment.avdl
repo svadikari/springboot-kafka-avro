@@ -1,9 +1,0 @@
-@namespace("com.shyam.avro.order")
-protocol Payment {
-	record Payment {
-		/** Type of payments, possible values [CC, GC, AP, PP]*/
-		union{null, string} paymentType = null;
-		union{null, decimal (5, 4) } amount = null;
-		union{null, string} currency = null;
-	}
-}
