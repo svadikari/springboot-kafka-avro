@@ -1,0 +1,25 @@
+project.ext {
+    artifactoryUrl = project.hasProperty('ARTIFACTORY_URL') ? ARTIFACTORY_URL : 'https://gapinc.jfrog.io/gapinc/'
+    librariesRepo = "${artifactoryUrl}maven-repos"
+
+    artifactoryCredentials = {
+        username System.getenv("SAAS_ARTIFACTORY_USERNAME") ?: "$artifactory_username"
+        password System.getenv("SAAS_ARTIFACTORY_TOKEN") ?: "$artifactory_password"
+    }
+
+    mavenRepositoryConfig = {
+        url librariesRepo
+        credentials artifactoryCredentials
+        metadataSources {
+            mavenPom()
+            artifact()
+        }
+    }
+
+    ivyRepositoryConfig = {
+        name 'remote_repos_ivy'
+        layout 'maven'
+        url librariesRepo
+        credentials artifactoryCredentials
+    }
+}

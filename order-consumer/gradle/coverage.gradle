@@ -1,0 +1,31 @@
+apply plugin: 'java'
+apply plugin: 'jacoco'
+
+jacoco {
+    reportsDir = file("$buildDir/jacoco/reports")
+}
+
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
+    
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'CLASS'
+            limit {
+                minimum = 0.00
+            }
+            excludes = [
+                    'com.shyam.order.OrderConsumerApplication'
+            ]
+        }
+    }
+}
+check.dependsOn jacocoTestReport
+check.dependsOn jacocoTestCoverageVerification

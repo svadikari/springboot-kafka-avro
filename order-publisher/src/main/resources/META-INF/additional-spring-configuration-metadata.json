@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "kafka.basic.ssl.protocols",
+      "type": "java.lang.String",
+      "description": "Description for kafka.basic.ssl.protocols."
+    },
+    {
+      "name": "kafka.properties.enableAutoRegister",
+      "type": "java.lang.String",
+      "description": "Description for kafka.properties.enableAutoRegister."
+    }
+  ] }

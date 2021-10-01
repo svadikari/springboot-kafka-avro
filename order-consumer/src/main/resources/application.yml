@@ -1,0 +1,48 @@
+kafka:
+  properties:
+    basic:
+      auth:
+        credentials:
+          source: USER_INFO
+          user: <<username>>
+          pass: <<password>>
+    enableAutoRegister: true
+    max_count: 100
+    max_delay: 5000
+    topic: TP.ORDER
+    schema:
+      registry:
+        url: http://localhost:8081
+        ssl:
+          truststore:
+            location: kafka/certs/kafka-truststore.jks
+            password: <<trust-store-pwd>>
+          keystore:
+            location: kafka/certs/kafka-keystore-preprod.jks
+            password: <<key-store-pwd>>
+          key:
+            password: <<key-store-pwd>>
+    ssl:
+      enabled: false
+      protocols: TLSv1.2,TLSv1.1,TLSv1
+      truststore:
+        type: JKS
+        location: kafka/certs/kafka-truststore.jks
+        password: <<trust-store-pwd>>
+      keystore:
+        type: JKS
+        location: kafka/certs/kafka-keystore-preprod.jks
+        password: <<key-store-pwd>>
+      key:
+        password: <<key-store-pwd>>
+    security:
+      protocol: SSL
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: CG.ORDER
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      max-message-size: 15000000
+server:
+  port: 8180

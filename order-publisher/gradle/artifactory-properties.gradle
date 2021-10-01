@@ -1,0 +1,21 @@
+project.ext {
+    artifactoryUrl = project.hasProperty('ARTIFACTORY_URL') ? ARTIFACTORY_URL : 'https://jfrog.io/shyam/'
+    librariesRepo = "${artifactoryUrl}maven-repos"
+
+    artifactoryCredentials = {
+        username System.getenv("ARTIFACTORY_USERNAME") ?: "$artifactory_username"
+        password System.getenv("ARTIFACTORY_TOKEN") ?: "$artifactory_password"
+    }
+
+    mavenRepositoryConfig = {
+        url librariesRepo
+        credentials artifactoryCredentials
+    }
+
+    ivyRepositoryConfig = {
+        name 'remote_repos_ivy'
+        layout 'maven'
+        url librariesRepo
+        credentials artifactoryCredentials
+    }
+}

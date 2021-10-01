@@ -39,3 +39,4 @@ derby.log
 package-lock.json
 /.idea/
 /.gradle/
+/build/

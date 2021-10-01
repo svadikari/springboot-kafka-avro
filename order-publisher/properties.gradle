@@ -1,0 +1,8 @@
+project.ext {
+    springBootVersion = '2.5.0'
+    openApiVersion = '4.3.0'
+    springMgmtVersion = '1.0.11.RELEASE'
+    avroPluginVersion = '0.15.1'
+    avroSchemaVersion = '6.1.0'
+    orderSchemaVersion = '1.0.0'
+}

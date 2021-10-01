@@ -1,0 +1,7 @@
+{
+  "type" : "enum",
+  "name" : "AddressType",
+  "namespace" : "com.shyam.avro.order",
+  "symbols" : [ "UNKNOWN", "MAILING", "BILLING" ],
+  "default" : "UNKNOWN"
+}

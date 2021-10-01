@@ -1,0 +1,68 @@
+buildscript {
+    apply from: 'properties.gradle'
+    apply from: 'gradle/artifactory-properties.gradle'
+    repositories {
+        maven mavenRepositoryConfig
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "org.openapitools:openapi-generator-gradle-plugin:${openApiVersion}"
+        classpath "com.commercehub.gradle.plugin:gradle-avro-plugin:${avroPluginVersion}"
+        classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.2'
+    }
+}
+
+plugins {
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id 'io.spring.dependency-management' version "${springMgmtVersion}"
+    id 'java'
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'com.commercehub.gradle.plugin.avro'
+apply plugin: 'maven-publish'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+apply from: 'gradle/idea.gradle'
+apply from: 'gradle/coverage.gradle'
+apply from: 'gradle/sonar.gradle'
+
+group = 'com.shyam.order'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+task setVersion {
+    if ("$appVersion" != "unspecified") {
+        version = "$appVersion"
+    } else {
+        version = '1.0.0-LOCAL'
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    maven mavenRepositoryConfig
+    mavenCentral()
+}
+
+dependencies {
+    implementation(
+            'org.springframework.boot:spring-boot-starter-web',
+            'org.springframework.kafka:spring-kafka',
+            "io.confluent:kafka-avro-serializer:${avroSchemaVersion}"
+            //"com.shyam.order:order-avro-model:${orderSchemaVersion}",
+    )
+    implementation files('/Users/SVadikari/NewIdeaProjects/RNDProjects/kafka-avro/order-avro-model/build/libs/order-avro-model-1.0.0.jar')
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}

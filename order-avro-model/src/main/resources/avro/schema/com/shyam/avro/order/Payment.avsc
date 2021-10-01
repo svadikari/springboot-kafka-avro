@@ -1,0 +1,24 @@
+{
+  "type" : "record",
+  "name" : "Payment",
+  "namespace" : "com.shyam.avro.order",
+  "fields" : [ {
+    "name" : "paymentType",
+    "type" : [ "null", "string" ],
+    "doc" : "Type of payments, possible values [CC, GC, AP, PP]",
+    "default" : null
+  }, {
+    "name" : "amount",
+    "type" : [ "null", {
+      "type" : "bytes",
+      "logicalType" : "decimal",
+      "precision" : 5,
+      "scale" : 4
+    } ],
+    "default" : null
+  }, {
+    "name" : "currency",
+    "type" : [ "null", "string" ],
+    "default" : null
+  } ]
+}
