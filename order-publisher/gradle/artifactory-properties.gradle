@@ -1,5 +1,5 @@
 project.ext {
-    artifactoryUrl = project.hasProperty('ARTIFACTORY_URL') ? ARTIFACTORY_URL : 'https://jfrog.io/shyam/'
+    artifactoryUrl = project.hasProperty('ARTIFACTORY_URL') ? ARTIFACTORY_URL : 'https://mvnrepository.com/repos/central/'
     librariesRepo = "${artifactoryUrl}maven-repos"
 
     artifactoryCredentials = {
@@ -8,8 +8,8 @@ project.ext {
     }
 
     mavenRepositoryConfig = {
-        url librariesRepo
-        credentials artifactoryCredentials
+        url artifactoryUrl
+        //credentials artifactoryCredentials
     }
 
     ivyRepositoryConfig = {

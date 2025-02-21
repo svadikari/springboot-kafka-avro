@@ -9,12 +9,13 @@ Install Docker
 Refer [Docker compose](docker-compose.yml) 
 to spin up zookeper, control center, schema-registry, ksqldb, broker instances
 
-Once docker instance is installed succesfully go to your project folder  where 'docker-compose' file exists and run 
-'docker-compose up -d' command
+Once docker instance is installed succesfully go to your project folder  where 'docker-compose' file exists and run
+<span style="color:blue">'docker-compose up -d'</span> command
 
 blow below urls to see schema-registry, broker and topic details.
 
 [schema-registry](http://localhost:8081/subjects/)
+
 [Kafka Cluster](http://localhost:9021/)
 
 

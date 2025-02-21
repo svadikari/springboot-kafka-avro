@@ -5,8 +5,7 @@ import com.github.davidmc24.gradle.plugin.avro.GenerateAvroSchemaTask
 buildscript {
     apply from: 'gradle/artifactory-properties.gradle'
     repositories {
-        maven mavenRepositoryConfig
-        ivy ivyRepositoryConfig
+        mavenCentral()
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:2.4.2"
@@ -39,8 +38,8 @@ task setVersion {
     }
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 17
+targetCompatibility = 17
 
 allprojects {
     group 'com.shyam.order'
@@ -48,7 +47,6 @@ allprojects {
 }
 
 repositories {
-    maven mavenRepositoryConfig
     mavenCentral()
 }
 configurations {

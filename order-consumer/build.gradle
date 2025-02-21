@@ -2,12 +2,16 @@ buildscript {
     apply from: 'properties.gradle'
     apply from: 'gradle/artifactory-properties.gradle'
     repositories {
-        maven mavenRepositoryConfig
+       mavenCentral()
+        maven {
+            url "https://packages.confluent.io/maven/"
+        }
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
         classpath "org.openapitools:openapi-generator-gradle-plugin:${openApiVersion}"
-        classpath "com.commercehub.gradle.plugin:gradle-avro-plugin:${avroPluginVersion}"
+        //classpath "com.commercehub.gradle.plugin:gradle-avro-plugin:${avroPluginVersion}"
+        classpath 'com.commercehub.gradle.plugin:gradle-avro-plugin:0.9.1'
         classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.2'
     }
 }
@@ -33,8 +37,8 @@ apply from: 'gradle/sonar.gradle'
 
 group = 'com.shyam.order'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 17
+targetCompatibility = 17
 
 task setVersion {
     if ("$appVersion" != "unspecified") {
@@ -51,8 +55,11 @@ configurations {
 }
 
 repositories {
-    maven mavenRepositoryConfig
+    //maven mavenRepositoryConfig
     mavenCentral()
+    maven {
+        url "https://packages.confluent.io/maven/"
+    }
 }
 
 dependencies {
@@ -62,7 +69,7 @@ dependencies {
             "io.confluent:kafka-avro-serializer:${avroSchemaVersion}"
             //"com.shyam.order:order-avro-model:${orderSchemaVersion}",
     )
-    implementation files('/Users/SVadikari/NewIdeaProjects/RNDProjects/kafka-avro/order-avro-model/build/libs/order-avro-model-1.0.0.jar')
+    implementation files('/Users/svadikari/Workspace/java_projects/springboot-kafka-avro/order-avro-model/build/libs/order-avro-model-1.0.0.jar')
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 }

@@ -1,0 +1,17 @@
+{
+  "orderNumber": "123",
+  "shipTo": {
+    "type": "BILLING",
+    "line1": "233232 line",
+    "line2": null,
+    "city": "MH",
+    "state": "CA",
+    "zipCode": "95000",
+    "country": "US"
+  },
+  "payment": {
+    "paymentType": "CC",
+    "amount": 123.9933,
+    "currency": "USD"
+  }
+}
